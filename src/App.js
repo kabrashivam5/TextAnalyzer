@@ -4,6 +4,15 @@ import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import About from './components/About';
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  Outlet,
+} from "react-router-dom";
+
 function App() {
   let properties={
     title:"Navbar",
@@ -15,8 +24,8 @@ function App() {
   let changemode=()=>{
     if (mode==='true'){
       document.body.style.backgroundColor='black'
-        setbtnMode('Enable Light Mode')
-        setMode('false')
+      setbtnMode('Enable Light Mode')
+      setMode('false')
     }
     else { 
       document.body.style.backgroundColor='white'
@@ -27,12 +36,37 @@ function App() {
 
   return (
     <>
-    <Navbar title={properties.title} about={properties.about}/>
-    <div className="container">
-      <TextForm heading={properties.heading}/>
-    </div>
-    <button className='container btn btn-primary mx-1 my-2' onClick={changemode}>{btnmode}</button>
-    <About/>
+      <Router>
+            <Routes>
+                <Route path="/about" element={
+                  <>
+                    <Navbar title={properties.title} about={properties.about}/>
+                    <About />
+                  </>
+                } />
+                <Route path="/home" element={
+                  <>
+                    <Navbar title={properties.title} about={properties.about}/> 
+                    <div className="container">
+                    <TextForm heading={properties.heading}/>
+                    </div>
+                  </> 
+                  
+                  }
+                />
+                <Route path="/" element={
+                  <>
+                    <Navbar title={properties.title} about={properties.about}/> 
+                    <div className="container">
+                    <button className='container btn btn-primary mx-1 my-2' onClick={changemode}>{btnmode}</button>
+                    </div>
+                    
+                  </> 
+                  
+                  }
+                />
+            </Routes>
+        </Router>
     </>
   );
 }
